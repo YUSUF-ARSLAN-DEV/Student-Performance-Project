@@ -37,4 +37,4 @@ r2 = r2_score(target_vector , model_predictions )
 # for name , coef in zip(train_data.columns , linear_model.coef_):
    # print(name,coef )
 
-print(rmse , mae , r2 )
+#print(f"Root Mean squared Error: {rmse}\nMean Absolute Error: {mae}\nCoefficient of Determinance: {r2} ")
