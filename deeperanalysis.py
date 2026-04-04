@@ -32,3 +32,14 @@ print(f"This will be the total Error of the model if it simply predicted The mea
 
 # Formula for R^2 = 1 - (Residaul_sum_of_squares/ total_baseline_error)
 # 
+# So In essece the reason why we divide the total error of the trained model 
+# by the error of the baseline model is that we investigate the relative performance of the model
+# basically for the dumb model is is really retarded it does not even try to capture any patterns
+# so in essence we are saying out of the total number of errors of the dumb models 
+# what percent of these errors were not commited by the smart model val_smart / val_dumb 
+# then you get a percent - now we know this percent was not commited by the smart model 
+# meaning that the model was able to capture the pattern aka the weights and bias combo was able to result 
+# in a prediction that shifts to the right direct by the right amount when feature values go up or down 
+# Then 1 is the total variation aka - every single possible change in values 
+# so we subtract 1- the value we got - aka the ratio to know what percent of the variation or the amount of variation 
+# that was not modeled or predicted by the model - to be percise explained 
