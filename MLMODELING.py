@@ -1,40 +1,30 @@
-from dataengineering import train_data , test_data , TEST_REAL_GPA_VALUES ,REAL_GPA_VALUES
 import numpy as np 
-import pandas as pd 
-import torch as pt 
-from sklearn.linear_model import LinearRegression  
-from sklearn.metrics  import mean_squared_error , mean_absolute_error ,r2_score 
+from sklearn.linear_model import LinearRegression 
+from sklearn.metrics import mean_squared_error , mean_absolute_error , r2_score 
+from dataengineering import load_data , preprocessing
 
-# CONVERTING THE DATA INTO MATRIX FORAMT 
+# a method to evaluate all models 
 
-ml_train = train_data.to_numpy()
-ml_test = test_data.to_numpy() 
-target_vector = TEST_REAL_GPA_VALUES.values 
-target_train = REAL_GPA_VALUES.values 
+def evaluate(model_name , y_true , y_pred ):
+    rmse = np.sqrt(mean_squared_error(y_true,y_pred ))
+    mae = mean_absolute_error(y_true,y_pred)
+    r2 = r2_score(y_true , y_pred)
+    print(f"\n{model_name }")
+    print(f" RMSE : {rmse:.4f}")
+    print(f" MAE : {mae:.4f}")
+    print(f"r2 : {r2:.4f}")
+    return {"model":model_name , "RMSE":rmse , "MAE": mae , "R2":r2 }
 
+def train_baseline(X_train , y_train , X_val , y_val ):
+    # baseline model which is lienar regression model 
+    model = LinearRegression() 
+    model.fit(X_train,y_train)
+    predections = model.predict(X_val)
+    results = evaluate("Linear Regression" , y_val , predections)
+    return model , results 
 
-
-
-# Creating  a Linear Regression Model 
-linear_model = LinearRegression() 
-linear_model.fit(ml_train,target_train)  # training the model 
-
-# Making The Model precit 
-
-model_predictions = linear_model.predict(ml_test) # making the model predict the GPA based on the train data set 
-
-# Now evaluating the performance of the model 
-rmse = np.sqrt(mean_squared_error(target_vector ,model_predictions))
-
-mae = mean_absolute_error(target_vector , model_predictions )
-
-r2 = r2_score(target_vector , model_predictions )
-#print(f"Root Mean Squared Error {rmse}" )
-#print(f"Mean Absolte Error {mae} ")
-#print("R2: ", r2 ) # one could say that the model explains 50% of the existing variability  in the target_varaible 
-
-# The coefficiens tell us  on how each feature influences GPA 
-# for name , coef in zip(train_data.columns , linear_model.coef_):
-   # print(name,coef )
-
-#print(f"Root Mean squared Error: {rmse}\nMean Absolute Error: {mae}\nCoefficient of Determinance: {r2} ")
+if __name__ == "__main__":
+    train , val , test = load_data() 
+    X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train,val,test)
+    model , results = train_baseline(X_train , y_train , X_val , y_val )
+    print(f"The Results For This model are as follows: {results}")
