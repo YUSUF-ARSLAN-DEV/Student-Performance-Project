@@ -44,18 +44,19 @@ def preprocessing(train_raw , val_raw , test_raw) :
 
     X_train, y_train = train[FEATURES], train[TARGET]
     X_val,   y_val   = val[FEATURES] , val[TARGET]
-    X_test,  y_test  = test[FEATURES] , val[TARGET]
+    X_test,  y_test  = test[FEATURES] , test[TARGET]
     scaler = StandardScaler() 
     X_train[SCALE_FEATURES] = scaler.fit_transform(X_train[SCALE_FEATURES])
     # we are basically calculating std and mean using the train data set 
     X_val[SCALE_FEATURES] = scaler.transform(X_val[SCALE_FEATURES])
     X_test[SCALE_FEATURES] = scaler.transform(X_test[SCALE_FEATURES])
-    return X_train , X_val , scaler , X_test , y_train , y_val , y_test 
+    return X_train[:200000] , X_val , scaler , X_test , y_train[:200000] , y_val , y_test 
 
 if __name__ == "__main__" :
     train_raw , val_raw , test_raw  = load_data()
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train_raw , val_raw , test_raw)
     print(f" The dimensions of the Train data set is: {X_train.shape}")
+    print(f"We should have 8 million rows since this is y_train{y_train.shape}")
     print(f" The dimensions of the test data set is: {X_test.shape}")
     print(f" The dimensions of the validation data set is: {X_val.shape}")
 
