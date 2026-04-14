@@ -26,7 +26,7 @@ def train_allModels(X_train , y_train , X_val , y_val):
         "Lasso" : Lasso(alpha = 0.001) ,
         # I guess my device was not all that powerful will have to reduce number of trees and cpu cores that 
         # are running at the same time 
-        "Random Forest" : RandomForestRegressor(n_estimators = 30, max_depth = 12  , random_state = 42 , n_jobs = 2 )
+        "Random Forest" : RandomForestRegressor(n_estimators = 100,  random_state = 42 , n_jobs = 4 )
     }
     results = [] 
     for name , model in models.items() :
