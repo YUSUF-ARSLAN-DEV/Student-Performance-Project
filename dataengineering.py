@@ -58,6 +58,7 @@ def preprocessing(train_raw , val_raw , test_raw) :
 
 if __name__ == "__main__" :
     train_raw , val_raw , test_raw  = load_data()
+    print(train_raw[["StudyHours","GPA"]].corr())
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train_raw , val_raw , test_raw)
     print(f" The dimensions of the Train data set is: {X_train.shape}")
     print(f"We should have 8 million rows since this is y_train{y_train.shape}")

@@ -39,5 +39,7 @@ def train_allModels(X_train , y_train , X_val , y_val):
 
 if __name__ == "__main__":
     train , val , test = load_data() 
+    
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train, val , test)
     results = train_allModels(X_train , y_train , X_val , y_val )
+   
