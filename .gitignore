@@ -6,6 +6,7 @@ __pycache__/
 .env
 .DS_Store
 Thumbs.db
-train.csv
-test.csv
-validation.csv
+data/
+observations.txt 
+deeperanalysis.py
+Observations/ 

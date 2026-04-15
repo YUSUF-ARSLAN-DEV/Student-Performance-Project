@@ -4,7 +4,7 @@ from sklearn.metrics import mean_squared_error , mean_absolute_error , r2_score
 from dataengineering import load_data , preprocessing
 from sklearn.linear_model import Ridge , Lasso 
 from sklearn.ensemble import RandomForestRegressor 
-
+import joblib 
 # a method to evaluate all models 
 
 def evaluate(model_name , y_true , y_pred ):
@@ -37,9 +37,16 @@ def train_allModels(X_train , y_train , X_val , y_val):
         results.append(training_results)
     return results 
 
+def save_model_and_scaler(LinearRegressionModel , Scaler ):
+    joblib.dump(LinearRegressionModel,"linearregression.pkl") 
+    joblib.dump(Scaler,"SCALER.pkl")
+
 if __name__ == "__main__":
     train , val , test = load_data() 
     
     X_train , X_val , scaler , X_test , y_train , y_val , y_test  = preprocessing(train, val , test)
-    results = train_allModels(X_train , y_train , X_val , y_val )
-   
+    # results = train_allModels(X_train , y_train , X_val , y_val )
+    the_best_model = LinearRegression()  
+    the_best_model.fit(X_train,y_train)
+    save_model_and_scaler(the_best_model , scaler )
+    
