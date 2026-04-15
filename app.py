@@ -37,22 +37,21 @@ locale_options = ["City", "Rural", "Suburban", "Town"]
 race_enc = [1 if race == r else 0 for r in race_options ] # check the value if it equals one of these replace it with one else then put 0 for every other race 
 locale_enc = [1 if locale == l else 0 for l in locale_options ]
 
+# Scale before building input array
+to_scale = np.array([[attendance, study_hours, freetime, goout]])  # Creating a numpy array shaped (1,4) so that we can feed it into scaler 
+scaled = scaler.transform(to_scale)[0] # flattening the (1,4) numpy array into a 1d array 
+attendance_s, study_hours_s, freetime_s, goout_s = scaled[0], scaled[1], scaled[2], scaled[3] # Basically unpacking the 1d vector that scaler object returned 
+ 
 ## Building a Feature vector to pass into the Model 
-base_features = [gender_enc , locale_enc , ses, edu_enc , attendance , study_hours , internet , extracurricular , 
-                 parent_support , romantic , freetime , goout ]
+base_features = [gender_enc , ses, edu_enc, school_enc , attendance_s , study_hours_s , internet , extracurricular , 
+                 parent_support , romantic , freetime_s , goout_s ]
 
 full_features = base_features + race_enc + locale_enc 
 input_array = np.array(full_features).reshape(1,-1)
 
-# Sclaing the features that needed scaling 
 
-index_of_features_that_need_scaling = [11 ,5,10 ]
 
-input_array[:,index_of_features_that_need_scaling] = scaler.transform(input_array[:,index_of_features_that_need_scaling])
-# all rows of these columns
-
-#predition time 
 
 if st.button("Predict GPA"):
     prediction = linearRegressionModel.predict(input_array)
-    st.sucess(f"The predicted GPA is: {prediction:.2f}")
+    st.success(f"The predicted GPA is: {prediction[0]:.2f}")
